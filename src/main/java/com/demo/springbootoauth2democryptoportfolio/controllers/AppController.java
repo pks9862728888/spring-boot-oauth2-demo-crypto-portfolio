@@ -13,4 +13,14 @@ public class AppController {
         return "portfolio";
     }
 
+    @GetMapping("/login")
+    public String getLoginPage() {
+        return "login";
+    }
+
+    @GetMapping("/support/admin")
+    public String getSupportPage() {
+        return "support-admin";
+    }
+
 }
