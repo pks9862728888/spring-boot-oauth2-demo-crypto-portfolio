@@ -1,5 +1,6 @@
 package com.demo.springbootoauth2democryptoportfolio.configuration;
 
+import com.demo.springbootoauth2democryptoportfolio.enums.RoleEnum;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,20 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@Order(100)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(99)
+public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-                .mvcMatchers("/login", "css/**").permitAll()
-                .anyRequest().authenticated()
+        http.mvcMatcher("/support/admin")
+                .authorizeRequests().anyRequest().hasRole(RoleEnum.ADMIN.name())
                 .and()
-                .httpBasic();
+                .formLogin(form -> form.loginPage("/login"));
     }
-
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().mvcMatchers("/css/**"); // Not recommended by Spring Security
-//    }
 }
