@@ -6,21 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/")
-public class AppController {
+public class HomeController {
 
     @GetMapping("/")
+    public String get() {
+        return getHomePage();
+    }
+
+    @GetMapping("/home")
     public String getHomePage() {
         return "portfolio";
-    }
-
-    @GetMapping("/login")
-    public String getLoginPage() {
-        return "login";
-    }
-
-    @GetMapping("/support/admin")
-    public String getSupportPage() {
-        return "support-admin";
     }
 
 }
