@@ -16,14 +16,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-                .mvcMatchers("/login", "css/**","/favicon.ico").permitAll()
-                .mvcMatchers("/support/admin").hasRole(RoleEnum.ADMIN.name())
-                .anyRequest().authenticated()
+        // Do not disable the security headers in production
+        http
+                .cors().disable() // Adds csrf token known only to specific website, without this request gets rejected
+                .headers()
+                    .cacheControl().disable() // Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+                    .xssProtection().disable() // X-XSS-Protection: 1; mode=block
+                    .contentTypeOptions().disable() // X-Content-Type-Options: nosniff
+                .and()
+                .authorizeHttpRequests()
+                    .mvcMatchers("/login", "css/**","/favicon.ico").permitAll()
+                    .mvcMatchers("/support/admin").hasRole(RoleEnum.ADMIN.name())
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin()
                     .successHandler(new AuthenticationSuccessHandlerImpl())
-//                    .defaultSuccessUrl("/home")
+                    .defaultSuccessUrl("/")
                 .and()
                 .logout();
     }
