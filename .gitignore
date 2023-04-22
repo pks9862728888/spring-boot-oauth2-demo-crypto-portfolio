@@ -1,2 +1,6 @@
 .idea
 target
+
+frontend/crypto-portfolio-frontend/.vscode
+frontend/crypto-portfolio-frontend/node_modules
+frontend/crypto-portfolio-frontend/dist
